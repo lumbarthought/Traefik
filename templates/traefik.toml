@@ -41,6 +41,10 @@ entryPoint = "https"
 [[acme.domains]]
   main = "*.{{domain.stdout}}"
 
+[file]
+watch = true
+filename = "/etc/traefik/rules.toml"
+
 #[[acme.domains]]
 #  main = "{{domain.stdout}}"
 #  sans = ["{{domain.stdout}}"]
