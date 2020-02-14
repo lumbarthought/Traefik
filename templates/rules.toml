@@ -1,0 +1,51 @@
+#rules.toml
+
+loglevel = "ERROR"
+
+[backends]
+   [backends.backend-ddwrt]
+     [backends.backend-ddwrt.servers.backend-ddwrt]
+         url = "http://192.168.1.4"
+   [backends.backend-plex]
+     [backends.backend-plex.servers.backend-plex]
+         url = "http://192.168.1.2:32400/web/"
+   [backends.backend-pfsense]
+      [backends.backend-pfsense.servers.backend-pfsense]
+          url = "https://192.168.1.1:81/"
+    [backends.backend-mikrotik]
+       [backends.backend-mikrotik.servers.backend-mikrotik]
+          url = "http://192.168.88.1"
+
+[frontends]
+    [frontends.frontend-ddwrt]
+      backend = "backend-ddwrt"
+      passHostHeader = true
+        [frontends.frontend-ddwrt.auth.forward]
+          address = "http://oauth:4181"
+          authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.frontend-ddwrt.routes.domain]
+          rule = "Host:ddwrt.{{domain.stdout}}"
+    [frontends.frontend-plex]
+      backend = "backend-plex"
+      passHostHeader = true
+        [frontends.frontend-plex.auth.forward]
+          address = "http://oauth:4181"
+          authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.frontend-plex.routes.domain]
+          rule = "Host:plex.{{domain.stdout}}"
+    [frontends.frontend-pfsense]
+      backend = "backend-pfsense"
+      passHostHeader = true
+        [frontends.frontend-pfsense.auth.forward]
+          address = "http://oauth:4181"
+          authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.frontend-pfsense.routes.domain]
+          rule = "Host:pfsense.{{domain.stdout}}"
+    [frontends.frontend-mikrotik]
+      backend = "backend-mikrotik"
+      passHostHeader = true
+        [frontends.frontend-mikrotik.auth.forward]
+          address = "http://oauth:4181"
+          authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.frontend-mikrotik.routes.domain]
+          rule = "Host:mikrotik.{{domain.stdout}}"

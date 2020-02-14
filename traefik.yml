@@ -39,6 +39,11 @@
         state: absent
         path: /opt/appdata/traefik/traefik.toml
 
+    - name: Removing Prior Rules.toml
+      file:
+        state: absent
+        path: /pg/data/traefik/rules.toml
+
     - name: Create Basic Directories
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
@@ -49,6 +54,14 @@
       template:
         src: traefik.toml
         dest: /opt/appdata/traefik/traefik.toml
+        force: yes
+        owner: '1000'
+        group: '1000'
+
+    - name: Installing Rules.Toml
+      template:
+        src: rules.toml
+        dest: /opt/appdata/traefik/rules.toml
         force: yes
         owner: '1000'
         group: '1000'
@@ -81,6 +94,7 @@
           - /var/run/docker.sock:/var/run/docker.sock:ro
           - /etc/localtime:/etc/localtime:ro
           - /opt/appdata/traefik/traefik.toml:/etc/traefik/traefik.toml:ro
+          - /opt/appdata/traefik/traefik.toml:/etc/traefik/rules.toml:ro
           - /opt/appdata/traefik/acme:/etc/traefik/acme
         restart_policy: unless-stopped
         state: started

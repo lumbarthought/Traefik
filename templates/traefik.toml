@@ -55,6 +55,10 @@ passHostHeader = true
 [frontends.cockpit.routes.cockpit]
 rule = "Host:cockpit.{{domain.stdout}}"
 
+[file]
+watch = true
+filename = "/etc/traefik/rules.toml"
+
 [docker]
 endpoint = "unix:///var/run/docker.sock"
 domain = "{{domain.stdout}}"
